@@ -1,14 +1,14 @@
 const assets = {
-  polina: "assets/polina.png?v=20260608-bgless",
-  friend1: "assets/friend1.png?v=20260608-bgless",
-  friend2: "assets/friend2.png?v=20260608-bgless",
-  friend3: "assets/friend3.png?v=20260608-bgless",
-  friend4: "assets/friend4.png?v=20260608-bgless",
-  friend5: "assets/friend5.png?v=20260608-bgless",
-  friend6: "assets/friend6.png?v=20260608-bgless",
-  cowboyStable: "assets/cowboy-stable.png?v=20260608-bgless",
-  cowboySaloon: "assets/cowboy-saloon.png?v=20260608-bgless",
-  cowboyGroom: "assets/cowboy-groom.png?v=20260608-bgless",
+  polina: "assets/polina.webp?v=20260610",
+  friend1: "assets/friend1.webp?v=20260610",
+  friend2: "assets/friend2.webp?v=20260610",
+  friend3: "assets/friend3.webp?v=20260610",
+  friend4: "assets/friend4.webp?v=20260610",
+  friend5: "assets/friend5.webp?v=20260610",
+  friend6: "assets/friend6.webp?v=20260610",
+  cowboyStable: "assets/cowboy-stable.webp?v=20260610",
+  cowboySaloon: "assets/cowboy-saloon.webp?v=20260610",
+  cowboyGroom: "assets/cowboy-groom.webp?v=20260610",
 };
 
 const speakerCharacters = {
@@ -25,26 +25,26 @@ const speakerCharacters = {
 };
 
 const backgrounds = {
-  ranchRoad: 'url("assets/locations/dusty-road-ranch.png")',
-  letter: 'url("assets/locations/letter-closeup-v2.png?v=20260608")',
+  ranchRoad: 'url("assets/locations/dusty-road-ranch.webp?v=20260610")',
+  letter: 'url("assets/locations/letter-closeup-v2.webp?v=20260610")',
   ranchGate:
-    'url("assets/locations/ranch-gate-v2.png?v=20260608")',
+    'url("assets/locations/ranch-gate-v2.webp?v=20260610")',
   map:
-    'url("assets/locations/ranch-map-v2.png?v=20260608")',
+    'url("assets/locations/ranch-map-v2.webp?v=20260610")',
   yard:
-    'url("assets/locations/ranch-yard-v2.png?v=20260608")',
+    'url("assets/locations/ranch-yard-v2.webp?v=20260610")',
   stable:
-    'url("assets/locations/stable-inside-v2.png?v=20260608")',
+    'url("assets/locations/stable-inside-v2.webp?v=20260610")',
   saloon:
-    'url("assets/locations/saloon-inside-v2.png?v=20260608")',
+    'url("assets/locations/saloon-inside-v2.webp?v=20260610")',
   paddock:
-    'url("assets/locations/paddock-sunset-v2.png?v=20260608")',
+    'url("assets/locations/paddock-sunset-v2.webp?v=20260610")',
   rodeoArena:
-    'url("assets/locations/rodeo-arena-v2.png?v=20260608")',
+    'url("assets/locations/rodeo-arena-v2.webp?v=20260610")',
   lastRodeoGate:
-    'url("assets/locations/last-rodeo-gate-v2.png?v=20260608")',
+    'url("assets/locations/last-rodeo-gate-v2.webp?v=20260610")',
   lastRodeoBall:
-    'url("assets/locations/last-rodeo-ball-v2.png?v=20260608")',
+    'url("assets/locations/last-rodeo-ball-v2.webp?v=20260610")',
 };
 
 const scenes = {
@@ -743,6 +743,45 @@ const choicesElement = document.getElementById("choices");
 const inventoryElement = document.getElementById("inventory");
 const systemToastElement = document.getElementById("systemToast");
 
+const preloadedImages = new Set();
+
+function getVisibleChoices(choices = []) {
+  return choices.filter((choice) => !choice.condition || choice.condition());
+}
+
+function extractBackgroundUrl(background = "") {
+  const match = background.match(/url\(["']?([^"')]+)["']?\)/);
+  return match ? match[1] : "";
+}
+
+function preloadImage(src) {
+  if (!src || preloadedImages.has(src)) {
+    return;
+  }
+
+  preloadedImages.add(src);
+  const image = new Image();
+  image.decoding = "async";
+  image.src = src;
+}
+
+function preloadSceneImages(scene) {
+  if (!scene) {
+    return;
+  }
+
+  preloadImage(extractBackgroundUrl(scene.background));
+  (scene.characters || []).forEach((character) => {
+    preloadImage(assets[character.id]);
+  });
+}
+
+function preloadUpcomingScenes(scene) {
+  getVisibleChoices(scene.choices).forEach((choice) => {
+    preloadSceneImages(scenes[choice.next]);
+  });
+}
+
 function renderInventory() {
   inventoryElement.innerHTML = [
     { label: "Подкова", icon: "♘", active: state.hasHorseshoe },
@@ -783,15 +822,14 @@ function renderCharacters(characters = [], speaker = "") {
 function renderChoices(choices = []) {
   choicesElement.innerHTML = "";
 
-  choices
-    .filter((choice) => !choice.condition || choice.condition())
+  getVisibleChoices(choices)
     .forEach((choice) => {
-    const button = document.createElement("button");
-    button.className = `choice${choice.variant ? ` choice--${choice.variant}` : ""}`;
-    button.type = "button";
-    button.textContent = choice.label;
-    button.addEventListener("click", () => goToScene(choice.next));
-    choicesElement.appendChild(button);
+      const button = document.createElement("button");
+      button.className = `choice${choice.variant ? ` choice--${choice.variant}` : ""}`;
+      button.type = "button";
+      button.textContent = choice.label;
+      button.addEventListener("click", () => goToScene(choice.next));
+      choicesElement.appendChild(button);
     });
 }
 
@@ -820,6 +858,7 @@ function goToScene(sceneId) {
   speakerElement.textContent = scene.speaker || "";
   textElement.textContent = scene.text;
   renderChoices(scene.choices);
+  preloadUpcomingScenes(scene);
 }
 
 goToScene("cover");

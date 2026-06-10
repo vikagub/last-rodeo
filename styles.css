@@ -287,7 +287,7 @@ button {
   background:
     linear-gradient(180deg, rgba(34, 13, 8, 0.06), rgba(22, 9, 6, 0.44)),
     radial-gradient(circle at 50% 24%, rgba(255, 220, 145, 0.18), transparent 34%),
-    url("assets/locations/cover-last-rodeo-v9.png?v=20260609");
+    url("assets/locations/cover-last-rodeo-v9.webp?v=20260610");
   background-position: center;
   background-size: cover;
 }
