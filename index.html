@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Клуб Романтики: Последнее родео</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="game" class="game" aria-live="polite">
+      <section id="scene" class="scene">
+        <div class="scene__wash"></div>
+        <div id="inventory" class="inventory" aria-label="Инвентарь"></div>
+        <div id="characters" class="characters"></div>
+        <div id="systemToast" class="system-toast" hidden></div>
+        <article id="dialogue" class="dialogue">
+          <div id="speaker" class="dialogue__speaker"></div>
+          <p id="text" class="dialogue__text"></p>
+          <div id="choices" class="choices"></div>
+        </article>
+      </section>
+    </main>
+    <script src="game.js"></script>
+  </body>
+</html>
