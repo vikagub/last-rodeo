@@ -118,6 +118,7 @@ button {
 }
 
 .character {
+  --character-flip: -1;
   position: absolute;
   bottom: 64px;
   width: auto;
@@ -127,7 +128,7 @@ button {
   object-position: bottom center;
   filter: drop-shadow(0 28px 38px rgba(0, 0, 0, 0.36));
   opacity: 0;
-  transform: translateY(18px) scale(1);
+  transform: translateY(18px) scaleX(var(--character-flip)) scale(1);
   transform-origin: bottom center;
   animation: character-in 460ms ease forwards;
 }
@@ -138,7 +139,7 @@ button {
 
 .character--center {
   left: 50%;
-  transform: translateX(-50%) translateY(18px) scale(1);
+  transform: translateX(-50%) translateY(18px) scaleX(var(--character-flip)) scale(1);
   animation-name: character-center-in;
 }
 
@@ -147,6 +148,7 @@ button {
 }
 
 .character--polina {
+  --character-flip: 1;
   bottom: 96px;
   z-index: 2;
 }
@@ -352,14 +354,14 @@ button {
 @keyframes character-in {
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scaleX(var(--character-flip)) scale(1);
   }
 }
 
 @keyframes character-center-in {
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translateX(-50%) translateY(0) scaleX(var(--character-flip)) scale(1);
   }
 }
 
