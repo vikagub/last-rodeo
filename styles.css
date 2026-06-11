@@ -99,6 +99,10 @@ button {
   border-color: rgba(246, 202, 112, 0.86);
 }
 
+.inventory__item.is-rewarded {
+  animation: inventory-reward-pulse 1800ms ease-out both;
+}
+
 .inventory__icon {
   font-size: 18px;
   line-height: 1;
@@ -181,6 +185,121 @@ button {
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.38);
 }
 
+.reward-overlay {
+  position: absolute;
+  top: clamp(86px, 16vh, 128px);
+  left: 50%;
+  z-index: 9;
+  width: min(520px, calc(100vw - 40px));
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.reward-overlay__card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 22px;
+  overflow: hidden;
+  color: #3b1e0d;
+  background:
+    radial-gradient(circle at 16% 12%, rgba(255, 255, 255, 0.72), transparent 28%),
+    linear-gradient(135deg, rgba(255, 244, 196, 0.98), rgba(238, 179, 75, 0.98) 52%, rgba(159, 86, 24, 0.98));
+  border: 1px solid rgba(255, 248, 216, 0.95);
+  border-radius: 22px;
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.42),
+    0 0 42px rgba(255, 204, 105, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  opacity: 0;
+  transform: translateY(-18px) scale(0.96);
+}
+
+.reward-overlay.is-visible .reward-overlay__card {
+  animation: reward-in 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.reward-overlay.is-hiding .reward-overlay__card {
+  animation: reward-out 320ms ease forwards;
+}
+
+.reward-overlay__icon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  color: #fff6d1;
+  font-size: 34px;
+  line-height: 1;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.52), transparent 28%),
+    linear-gradient(180deg, #b96d22, #522711);
+  border: 1px solid rgba(255, 247, 207, 0.78);
+  border-radius: 50%;
+  box-shadow:
+    0 10px 22px rgba(82, 39, 17, 0.35),
+    inset 0 -2px 0 rgba(38, 13, 5, 0.34);
+  text-shadow: 0 2px 7px rgba(47, 20, 8, 0.6);
+}
+
+.reward-overlay__content {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.reward-overlay__title {
+  font-family: var(--font-story);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+.reward-overlay__subtitle {
+  margin-top: 5px;
+  color: rgba(62, 30, 11, 0.78);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.reward-overlay__spark {
+  position: absolute;
+  z-index: 0;
+  width: 9px;
+  height: 9px;
+  background: #fff7bd;
+  border-radius: 50%;
+  box-shadow: 0 0 16px rgba(255, 246, 183, 0.9);
+  opacity: 0;
+}
+
+.reward-overlay__spark--one {
+  top: 18px;
+  right: 86px;
+  animation: reward-spark 1100ms ease-out 120ms infinite;
+}
+
+.reward-overlay__spark--two {
+  right: 30px;
+  bottom: 24px;
+  animation: reward-spark 1300ms ease-out 260ms infinite;
+}
+
+.reward-overlay__spark--three {
+  top: 54px;
+  left: 84px;
+  width: 6px;
+  height: 6px;
+  animation: reward-spark 1250ms ease-out 360ms infinite;
+}
+
 .dialogue {
   position: absolute;
   left: 50%;
@@ -252,6 +371,10 @@ button {
 }
 
 .choice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   min-height: 50px;
   padding: 13px 18px;
   color: #351d0f;
@@ -270,6 +393,38 @@ button {
     transform 160ms ease,
     filter 160ms ease,
     box-shadow 160ms ease;
+}
+
+.choice__label {
+  min-width: 0;
+}
+
+.choice__stars {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 34px;
+  padding: 5px 8px;
+  color: #fff6c9;
+  background:
+    radial-gradient(circle at 38% 22%, rgba(255, 255, 255, 0.82), transparent 23%),
+    linear-gradient(180deg, #f6cb63, #9e5a1d);
+  border: 1px solid rgba(255, 248, 212, 0.82);
+  border-radius: 999px;
+  box-shadow:
+    0 6px 14px rgba(88, 42, 12, 0.24),
+    inset 0 -1px 0 rgba(77, 32, 8, 0.28);
+}
+
+.choice__star {
+  font-size: 12px;
+  line-height: 1;
+  color: #fff2a2;
+  text-shadow:
+    0 1px 0 rgba(85, 39, 8, 0.32),
+    0 0 7px rgba(255, 238, 168, 0.5);
 }
 
 .choice:hover,
@@ -294,7 +449,7 @@ button {
   background:
     linear-gradient(180deg, rgba(34, 13, 8, 0.06), rgba(22, 9, 6, 0.44)),
     radial-gradient(circle at 50% 24%, rgba(255, 220, 145, 0.18), transparent 34%),
-    url("assets/locations/cover-last-rodeo-v9.webp?v=20260610");
+    url("assets/locations/cover-last-rodeo-v10.webp?v=20260611");
   background-position: center;
   background-size: cover;
 }
@@ -371,6 +526,58 @@ button {
   }
 }
 
+@keyframes reward-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes reward-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.98);
+  }
+}
+
+@keyframes reward-spark {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.4);
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-18px) scale(1.35);
+  }
+}
+
+@keyframes inventory-reward-pulse {
+  0%,
+  100% {
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
+  }
+
+  18%,
+  72% {
+    border-color: rgba(255, 241, 171, 0.98);
+    box-shadow:
+      0 14px 34px rgba(0, 0, 0, 0.2),
+      0 0 0 4px rgba(248, 205, 102, 0.22),
+      0 0 34px rgba(248, 205, 102, 0.44);
+    filter: brightness(1.12);
+  }
+}
+
 @media (max-width: 760px) {
   body {
     overflow: auto;
@@ -394,6 +601,31 @@ button {
 
   .inventory__label {
     display: none;
+  }
+
+  .reward-overlay {
+    top: 70px;
+    width: min(330px, calc(100vw - 24px));
+  }
+
+  .reward-overlay__card {
+    gap: 11px;
+    padding: 13px 15px;
+    border-radius: 18px;
+  }
+
+  .reward-overlay__icon {
+    width: 46px;
+    height: 46px;
+    font-size: 25px;
+  }
+
+  .reward-overlay__title {
+    font-size: 20px;
+  }
+
+  .reward-overlay__subtitle {
+    font-size: 10px;
   }
 
   .character {
@@ -436,8 +668,19 @@ button {
   }
 
   .choice {
+    justify-content: space-between;
+    gap: 10px;
     width: 100%;
     border-radius: 16px;
+  }
+
+  .choice__stars {
+    min-width: 32px;
+    padding: 4px 7px;
+  }
+
+  .choice__star {
+    font-size: 11px;
   }
 
   .scene--map .choices {
@@ -451,11 +694,18 @@ button {
   .scene__wash,
   .character,
   .dialogue,
+  .reward-overlay__card,
+  .reward-overlay__spark,
+  .inventory__item,
   .choice {
     transition: none !important;
   }
 
-  .character {
+  .character,
+  .reward-overlay__card,
+  .reward-overlay__spark,
+  .inventory__item.is-rewarded {
     animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

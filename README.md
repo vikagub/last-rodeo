@@ -21,7 +21,7 @@
 sceneId: {
   background: backgrounds.stable,
   characters: [{ id: "polina", position: "left" }],
-  speaker: "Полина",
+  speaker: "Поли",
   text: "Текст сцены",
   choices: [{ label: "Кнопка", next: "nextSceneId" }],
 }
