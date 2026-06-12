@@ -21,6 +21,7 @@ const speakerCharacters = {
   "Подруга 6": "friend6",
   "Майкл": "cowboyStable",
   "Сайрил": "cowboySaloon",
+  "Незнакомец": "cowboyGroom",
   "Юджин": "cowboyGroom",
 };
 
@@ -45,6 +46,8 @@ const backgrounds = {
     'url("assets/locations/last-rodeo-gate-v2.webp?v=20260610")',
   lastRodeoBall:
     'url("assets/locations/last-rodeo-ball-v2.webp?v=20260610")',
+  lastRodeoEnding:
+    'url("assets/locations/last-rodeo-ending-v1.png?v=20260612")',
 };
 
 const scenes = {
@@ -754,52 +757,105 @@ const scenes = {
     speaker: "Сайрил",
     text: "А я обещаю честно стараться, но не уверен...",
     choices: [
-      { label: "Пойти с Майклом", next: "ballMichaelDetour" },
-      { label: "Пойти с Сайрилом", next: "ballSairilDetour" },
+      { label: "Пойти с ковбоем из конюшни", next: "ballMichaelDetour" },
+      { label: "Пойти с ковбоем из салуна", next: "ballSairilDetour" },
     ],
   },
   ballMichaelDetour: {
+    mode: "wide",
+    background: backgrounds.lastRodeoGate,
+    characters: [
+      { id: "cowboyStable", position: "left" },
+      { id: "polina", position: "right" },
+    ],
+    text:
+      "Майкл ведёт Поли к воротам, но по пути останавливается у зеркальной бочки.",
+    choices: [{ label: "Слушать Майкла", next: "ballMichaelGatePose" }],
+  },
+  ballMichaelGatePose: {
     mode: "dialogue",
     background: backgrounds.lastRodeoGate,
     speaker: "Майкл",
     text:
-      "Подожди. Войти на бал надо так, чтобы бал понял, кто к нему пришёл. Ты будешь рядом. Это усилит мой образ мужчины, который мог бы остепениться, но не сегодня.",
+      "Подожди. Войти на бал надо так, чтобы бал понял, кто к нему пришёл.",
+    choices: [{ label: "Слушать дальше", next: "ballMichaelImageBoost" }],
+  },
+  ballMichaelImageBoost: {
+    mode: "dialogue",
+    background: backgrounds.lastRodeoGate,
+    speaker: "Майкл",
+    text:
+      "Ты будешь рядом. Это усилит мой образ мужчины, который мог бы остепениться, но не сегодня.",
+    choices: [{ label: "Оглянуться на Джулс", next: "ballMichaelJulesWarning" }],
+  },
+  ballMichaelJulesWarning: {
+    mode: "dialogue",
+    background: backgrounds.lastRodeoGate,
+    speaker: "Джулс",
+    text: "Уверена? Кажется, он не для тебя.",
     choices: [{ label: "Вернуться к воротам", next: "ballThirdCowboyDrop" }],
   },
   ballSairilDetour: {
+    mode: "wide",
+    background: backgrounds.lastRodeoGate,
+    characters: [
+      { id: "cowboySaloon", position: "left" },
+      { id: "polina", position: "right" },
+    ],
+    text:
+      "Сайрил ведёт Поли к воротам, но слышит объявление о ставках.",
+    choices: [{ label: "Слушать Сайрила", next: "ballSairilBetThought" }],
+  },
+  ballSairilBetThought: {
     mode: "dialogue",
     background: backgrounds.lastRodeoGate,
     speaker: "Сайрил",
-    text:
-      "Последняя мысль. Если поставить жетон, мы можем войти богатыми. Или не войти. Да, но как драматично.",
+    text: "Последняя мысль. Если поставить жетон, мы можем войти богатыми.",
+    choices: [{ label: "Ответить", next: "ballSairilNoEntry" }],
+  },
+  ballSairilNoEntry: {
+    mode: "dialogue",
+    background: backgrounds.lastRodeoGate,
+    speaker: "Поли",
+    text: "Или не войти.",
+    choices: [{ label: "Слушать Сайрила", next: "ballSairilDrama" }],
+  },
+  ballSairilDrama: {
+    mode: "dialogue",
+    background: backgrounds.lastRodeoGate,
+    speaker: "Сайрил",
+    text: "Да, но как драматично.",
+    choices: [{ label: "Оглянуться на Джулс", next: "ballSairilJulesWarning" }],
+  },
+  ballSairilJulesWarning: {
+    mode: "dialogue",
+    background: backgrounds.lastRodeoGate,
+    speaker: "Джулс",
+    text: "Уверена? Кажется, он не для тебя.",
     choices: [{ label: "Вернуться к воротам", next: "ballThirdCowboyDrop" }],
   },
   ballThirdCowboyDrop: {
     mode: "wide",
     background: backgrounds.lastRodeoGate,
     characters: [
-      { id: "polina", position: "left" },
-      { id: "cowboyGroom", position: "right" },
+      { id: "polina", position: "center" },
     ],
     text:
-      "В суматохе Поли роняет подкову. Юджин спокойно поднимает её и возвращает так, будто весь вечер ждал ровно этого момента.",
-    choices: [{ label: "Посмотреть на него", next: "ballEugeneReturn" }],
+      "В суматохе Поли роняет подкову. Незнакомец поднимает её и спокойно отдаёт.",
+    choices: [{ label: "Посмотреть на него", next: "ballStrangerReturn" }],
   },
-  ballEugeneReturn: {
+  ballStrangerReturn: {
     mode: "dialogue",
     background: backgrounds.lastRodeoGate,
-    speaker: "Юджин",
+    speaker: "Незнакомец",
     text: "Кажется, это твоё. Важные вещи лучше не оставлять в пыли.",
-    choices: [
-      { label: "Поблагодарить", next: "ballLanternFix" },
-      { label: "Спросить, кто он", next: "ballAskEugene" },
-    ],
+    choices: [{ label: "Спросить, кто он", next: "ballAskEugene" }],
   },
   ballAskEugene: {
     mode: "dialogue",
     background: backgrounds.lastRodeoGate,
     speaker: "Юджин",
-    text: "Тот, кто всегда мечтал встретить тебя на балу ВК знакомств.",
+    text: "Я — Юджин. Тот, кто всегда мечтал встретить тебя на балу ВК знакомств.",
     choices: [{ label: "Услышать шум у ворот", next: "ballLanternFix" }],
   },
   ballLanternFix: {
@@ -822,21 +878,23 @@ const scenes = {
     text:
       "Ты сегодня весь вечер выбирала между шумом и обещаниями. Давай хотя бы сейчас никто не будет выбирать за тебя.",
     choices: [
-      { label: "Майкл", next: "ballRejectMichael" },
       { label: "Сайрил", next: "ballRejectSairil" },
+      { label: "Майкл", next: "ballRejectMichael" },
       { label: "Юджин", next: "ballEugeneFinal" },
     ],
   },
   ballRejectMichael: {
-    mode: "narration",
+    mode: "dialogue",
     background: backgrounds.lastRodeoGate,
-    text: "Игра заботливо не даёт тебе испортить финал. Майкл уже позирует для входа.",
+    speaker: "Джулс",
+    text: "Уверена? Кажется, он не для тебя.",
     choices: [{ label: "Выбрать снова", next: "ballEugeneChoice" }],
   },
   ballRejectSairil: {
-    mode: "narration",
+    mode: "dialogue",
     background: backgrounds.lastRodeoGate,
-    text: "Игра заботливо не даёт тебе испортить финал. Сайрил всё ещё смотрит в сторону ставок.",
+    speaker: "Джулс",
+    text: "Уверена? Кажется, он не для тебя.",
     choices: [{ label: "Выбрать снова", next: "ballEugeneChoice" }],
   },
   ballEugeneFinal: {
@@ -871,24 +929,20 @@ const scenes = {
     ],
     text:
       "Впервые за вечер никто не позирует, не ставит на быка и не говорит загадками про ветер. Просто музыка, свет и человек, рядом с которым спокойно.",
-    choices: [{ label: "Слушать голосовое", next: "ballVoice" }],
-  },
-  ballVoice: {
-    mode: "narration",
-    background: backgrounds.lastRodeoBall,
-    speaker: "Голосовое",
-    text:
-      "Голосовое жениха включается в самый подходящий момент. Вечер смеётся, огни качаются над двором, и Бал ВК Знакомств официально становится легендой.",
-    choices: [{ label: "Финальный кадр", next: "ballFinal" }],
+    choices: [{ label: "6 месяцев спустя", next: "ballFinal" }],
   },
   ballFinal: {
-    mode: "wide",
-    background: backgrounds.lastRodeoBall,
-    characters: [
-      { id: "polina", position: "left" },
-      { id: "cowboyGroom", position: "right" },
-    ],
+    mode: "narration",
+    background: backgrounds.lastRodeoEnding,
     text: "Последнее родео заканчивается. Самая интересная история начинается после заката.",
+    choices: [{ label: "Слушать Юджина", next: "ballFinalEugene" }],
+  },
+  ballFinalEugene: {
+    mode: "narration",
+    background: backgrounds.lastRodeoEnding,
+    speaker: "Юджин",
+    text:
+      "Если это и было последнее родео, то только потому, что дальше начинается наша история.",
     choices: [{ label: "Начать заново", next: "cover" }],
   },
 };
