@@ -52,7 +52,7 @@ const scenes = {
     mode: "narration",
     className: "scene--cover",
     resetState: true,
-    text: "Клуб Романтики: Последнее родео",
+    text: "Клуб Романтики:\nПоследнее родео",
     choices: [{ label: "Начать историю", next: "road" }],
   },
   road: {
