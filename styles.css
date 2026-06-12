@@ -80,11 +80,11 @@ button {
 
 .inventory__item {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 7px;
+  grid-template-columns: 18px auto;
+  gap: 6px;
   align-items: center;
-  min-width: 120px;
-  padding: 9px 12px;
+  min-width: 110px;
+  padding: 8px 9px;
   color: var(--cream);
   background: rgba(42, 22, 13, 0.66);
   border: 1px solid var(--line);
@@ -104,8 +104,18 @@ button {
 }
 
 .inventory__icon {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
   font-size: 18px;
   line-height: 1;
+  transform: translateX(-1px);
+}
+
+.inventory__item--token {
+  min-width: 106px;
+  padding-right: 4px;
 }
 
 .inventory__label {
@@ -371,35 +381,48 @@ button {
 }
 
 .choice {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   min-height: 50px;
   padding: 13px 18px;
-  color: #351d0f;
+  overflow: hidden;
+  color: #32190b;
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 760;
+  text-align: center;
   background:
-    linear-gradient(180deg, rgba(255, 242, 202, 0.98), rgba(227, 177, 83, 0.96)),
-    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.62), transparent 34%);
-  border: 1px solid rgba(255, 245, 211, 0.88);
+    radial-gradient(circle at 24% 0%, rgba(255, 255, 255, 0.48), transparent 32%),
+    linear-gradient(180deg, #ffe3a1 0%, #efbd62 54%, #d89234 100%),
+    #efbd62;
+  border: 1px solid rgba(255, 243, 205, 0.9);
   border-radius: 999px;
   box-shadow:
-    0 14px 28px rgba(0, 0, 0, 0.24),
-    inset 0 -2px 0 rgba(113, 63, 20, 0.14);
+    0 12px 24px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -1px 0 rgba(119, 62, 15, 0.2);
   cursor: pointer;
   transition:
     transform 160ms ease,
-    filter 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    background 160ms ease,
     box-shadow 160ms ease;
 }
 
 .choice__label {
+  position: relative;
+  z-index: 1;
   min-width: 0;
+  line-height: 1.25;
 }
 
 .choice__stars {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
@@ -407,42 +430,49 @@ button {
   gap: 2px;
   min-width: 34px;
   padding: 5px 8px;
-  color: #fff6c9;
+  color: #fff0a6;
   background:
-    radial-gradient(circle at 38% 22%, rgba(255, 255, 255, 0.82), transparent 23%),
-    linear-gradient(180deg, #f6cb63, #9e5a1d);
-  border: 1px solid rgba(255, 248, 212, 0.82);
+    radial-gradient(circle at 40% 0%, rgba(255, 239, 174, 0.34), transparent 45%),
+    linear-gradient(180deg, #8a4e1c, #4d2410),
+    #4d2410;
+  border: 1px solid rgba(255, 235, 168, 0.58);
   border-radius: 999px;
   box-shadow:
-    0 6px 14px rgba(88, 42, 12, 0.24),
-    inset 0 -1px 0 rgba(77, 32, 8, 0.28);
+    0 5px 12px rgba(75, 35, 10, 0.24),
+    inset 0 1px 0 rgba(255, 242, 192, 0.26);
 }
 
 .choice__star {
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1;
-  color: #fff2a2;
+  color: #ffe58d;
   text-shadow:
-    0 1px 0 rgba(85, 39, 8, 0.32),
-    0 0 7px rgba(255, 238, 168, 0.5);
+    0 1px 0 rgba(47, 20, 8, 0.42),
+    0 0 8px rgba(255, 230, 141, 0.36);
 }
 
 .choice:hover,
 .choice:focus-visible {
   outline: none;
-  transform: translateY(-2px);
-  filter: brightness(1.06);
+  transform: translateY(-1px);
+  color: #2b1307;
+  border-color: rgba(255, 249, 222, 1);
+  background:
+    radial-gradient(circle at 24% 0%, rgba(255, 255, 255, 0.58), transparent 34%),
+    linear-gradient(180deg, #ffecba 0%, #f4ca72 52%, #df9d3d 100%),
+    #f4ca72;
   box-shadow:
-    0 18px 34px rgba(0, 0, 0, 0.28),
-    inset 0 -2px 0 rgba(113, 63, 20, 0.14);
+    0 14px 28px rgba(0, 0, 0, 0.24),
+    0 0 0 3px rgba(244, 201, 111, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.46),
+    inset 0 -1px 0 rgba(119, 62, 15, 0.18);
 }
 
 .choice--map {
   min-width: min(280px, 100%);
-  min-height: 78px;
-  padding: 20px 24px;
-  font-size: 22px;
-  border-radius: 18px;
+  min-height: 70px;
+  padding: 18px 24px;
+  font-size: 20px;
 }
 
 .scene--cover {
@@ -596,7 +626,13 @@ button {
   }
 
   .inventory__item {
+    grid-template-columns: 18px;
+    gap: 0;
     min-width: auto;
+  }
+
+  .inventory__item--token {
+    padding-right: 4px;
   }
 
   .inventory__label {
@@ -671,16 +707,22 @@ button {
     justify-content: space-between;
     gap: 10px;
     width: 100%;
-    border-radius: 16px;
+    min-height: 50px;
+    padding: 12px 14px 12px 16px;
+    font-size: 14px;
+  }
+
+  .choice__label {
+    text-align: left;
   }
 
   .choice__stars {
-    min-width: 32px;
-    padding: 4px 7px;
+    min-width: 31px;
+    padding: 5px 7px;
   }
 
   .choice__star {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .scene--map .choices {
