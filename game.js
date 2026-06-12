@@ -952,6 +952,21 @@ const state = {
   hasToken: false,
 };
 
+let currentSceneId;
+const sceneHistory = [];
+
+function snapshotState() {
+  return {
+    hasHorseshoe: state.hasHorseshoe,
+    hasToken: state.hasToken,
+  };
+}
+
+function restoreState(snapshot = {}) {
+  state.hasHorseshoe = Boolean(snapshot.hasHorseshoe);
+  state.hasToken = Boolean(snapshot.hasToken);
+}
+
 function resetState() {
   state.hasHorseshoe = false;
   state.hasToken = false;
@@ -975,6 +990,7 @@ const choicesElement = document.getElementById("choices");
 const inventoryElement = document.getElementById("inventory");
 const systemToastElement = document.getElementById("systemToast");
 const rewardOverlayElement = document.getElementById("rewardOverlay");
+const backButtonElement = document.getElementById("backButton");
 
 const preloadedImages = new Set();
 let rewardTimerId;
@@ -1128,6 +1144,12 @@ function renderChoices(choices = []) {
     });
 }
 
+function updateBackButton() {
+  const canGoBack = sceneHistory.length > 0;
+  backButtonElement.hidden = !canGoBack;
+  backButtonElement.disabled = !canGoBack;
+}
+
 function showToast(message) {
   if (!message) {
     systemToastElement.hidden = true;
@@ -1192,23 +1214,70 @@ function showReward(reward) {
   }, 1800);
 }
 
-function goToScene(sceneId) {
+function renderScene(sceneId, { applyEffects = true, showRewards = true } = {}) {
   const scene = scenes[sceneId] || scenes.cover;
   const sceneMode = getSceneMode(scene);
 
-  applySceneState(scene);
+  if (applyEffects) {
+    applySceneState(scene);
+  }
 
   sceneElement.className = `scene scene--mode-${sceneMode} ${scene.className || ""}`;
   sceneElement.style.setProperty("--scene-bg", scene.background || "transparent");
 
   showToast(scene.toast);
   renderInventory();
-  showReward(scene.reward);
+  if (showRewards) {
+    showReward(scene.reward);
+  } else {
+    hideReward();
+  }
   renderCharacters(scene);
   speakerElement.textContent = scene.speaker || "";
   textElement.textContent = scene.text;
   renderChoices(scene.choices);
   preloadUpcomingScenes(scene);
+  currentSceneId = sceneId;
+  updateBackButton();
 }
+
+function goToScene(sceneId, { pushHistory = true, applyEffects = true, showRewards = true, stateSnapshot } = {}) {
+  const targetSceneId = scenes[sceneId] ? sceneId : "cover";
+
+  if (stateSnapshot) {
+    restoreState(stateSnapshot);
+  }
+
+  if (pushHistory && currentSceneId && targetSceneId !== "cover") {
+    sceneHistory.push({
+      sceneId: currentSceneId,
+      state: snapshotState(),
+    });
+  }
+
+  if (targetSceneId === "cover") {
+    sceneHistory.length = 0;
+  }
+
+  renderScene(targetSceneId, { applyEffects, showRewards });
+}
+
+function goBack() {
+  const previousScene = sceneHistory.pop();
+
+  if (!previousScene) {
+    updateBackButton();
+    return;
+  }
+
+  goToScene(previousScene.sceneId, {
+    pushHistory: false,
+    applyEffects: false,
+    showRewards: false,
+    stateSnapshot: previousScene.state,
+  });
+}
+
+backButtonElement.addEventListener("click", goBack);
 
 goToScene("cover");
