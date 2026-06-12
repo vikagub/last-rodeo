@@ -179,6 +179,65 @@ button {
     saturate(1.05);
 }
 
+.scene--gate-lineup .character {
+  height: min(68vh, 650px);
+  max-width: 36vw;
+}
+
+.scene--gate-lineup .character--left {
+  left: 3vw;
+}
+
+.scene--gate-lineup .character--right {
+  right: 3vw;
+}
+
+.scene--gate-lineup .character--center {
+  --character-scale: 1.02;
+  z-index: 3;
+}
+
+.scene--friends-toast .character {
+  --character-scale: 0.94;
+  bottom: 106px;
+  height: min(62vh, 600px);
+  max-width: 28vw;
+  filter: drop-shadow(0 24px 34px rgba(0, 0, 0, 0.32));
+}
+
+.scene--friends-toast .character--friend-far-left {
+  left: 1vw;
+  z-index: 1;
+}
+
+.scene--friends-toast .character--friend-left {
+  left: 15vw;
+  z-index: 2;
+}
+
+.scene--friends-toast .character--friend-mid-left {
+  left: 29vw;
+  z-index: 3;
+}
+
+.scene--friends-toast .character--friend-mid-right {
+  --character-flip: 1;
+  right: 29vw;
+  z-index: 3;
+}
+
+.scene--friends-toast .character--friend-right {
+  --character-flip: 1;
+  right: 15vw;
+  z-index: 2;
+}
+
+.scene--friends-toast .character--friend-far-right {
+  --character-flip: 1;
+  right: 1vw;
+  z-index: 1;
+}
+
 .system-toast {
   position: absolute;
   top: 80px;
@@ -683,6 +742,53 @@ button {
 
   .character--center {
     max-width: 74vw;
+  }
+
+  .scene--gate-lineup .character {
+    height: min(48vh, 420px);
+    max-width: 43vw;
+  }
+
+  .scene--gate-lineup .character--left {
+    left: -6vw;
+  }
+
+  .scene--gate-lineup .character--right {
+    right: -8vw;
+  }
+
+  .scene--gate-lineup .character--center {
+    max-width: 48vw;
+  }
+
+  .scene--friends-toast .character {
+    bottom: 246px;
+    height: min(39vh, 335px);
+    max-width: 36vw;
+  }
+
+  .scene--friends-toast .character--friend-far-left {
+    left: -4vw;
+  }
+
+  .scene--friends-toast .character--friend-left {
+    left: 8vw;
+  }
+
+  .scene--friends-toast .character--friend-mid-left {
+    left: 20vw;
+  }
+
+  .scene--friends-toast .character--friend-mid-right {
+    right: 20vw;
+  }
+
+  .scene--friends-toast .character--friend-right {
+    right: 8vw;
+  }
+
+  .scene--friends-toast .character--friend-far-right {
+    right: -4vw;
   }
 
   .dialogue {

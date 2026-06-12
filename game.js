@@ -5,7 +5,7 @@ const assets = {
   friend3: "assets/friend3.webp?v=20260610",
   friend4: "assets/friend4.webp?v=20260610",
   friend5: "assets/friend5.webp?v=20260610",
-  friend6: "assets/friend6.webp?v=20260610",
+  friend6: "assets/friend6.webp?v=20260612",
   cowboyStable: "assets/cowboy-stable.webp?v=20260610",
   cowboySaloon: "assets/cowboy-saloon.webp?v=20260610",
   cowboyGroom: "assets/cowboy-groom.webp?v=20260610",
@@ -805,8 +805,10 @@ const scenes = {
   ballLanternFix: {
     mode: "wide",
     background: backgrounds.lastRodeoGate,
+    className: "scene--gate-lineup",
     characters: [
       { id: "cowboyStable", position: "left" },
+      { id: "cowboySaloon", position: "center" },
       { id: "cowboyGroom", position: "right" },
     ],
     text:
@@ -847,9 +849,14 @@ const scenes = {
   ballFriendsToast: {
     mode: "wide",
     background: backgrounds.lastRodeoBall,
+    className: "scene--friends-toast",
     characters: [
-      { id: "friend1", position: "left" },
-      { id: "friend4", position: "right" },
+      { id: "friend1", position: "friend-far-left" },
+      { id: "friend2", position: "friend-left" },
+      { id: "friend3", position: "friend-mid-left" },
+      { id: "friend4", position: "friend-mid-right" },
+      { id: "friend5", position: "friend-right" },
+      { id: "friend6", position: "friend-far-right" },
     ],
     text:
       "Подруги встречают Поли у входа. Кастинг ковбоев завершён. Жетон не проигран. Подкова у правильного человека.",
