@@ -48,6 +48,8 @@ const backgrounds = {
     'url("assets/locations/last-rodeo-ball-v2.webp?v=20260610")',
   lastRodeoEnding:
     'url("assets/locations/last-rodeo-ending-v1.png?v=20260612")',
+  lastRodeoCredits:
+    'url("assets/locations/last-rodeo-credits-v1.png?v=20260613")',
 };
 
 const scenes = {
@@ -943,6 +945,14 @@ const scenes = {
     speaker: "Юджин",
     text:
       "Если это и было последнее родео, то только потому, что дальше начинается наша история.",
+    choices: [{ label: "Титры", next: "ballCredits" }],
+  },
+  ballCredits: {
+    mode: "narration",
+    background: backgrounds.lastRodeoCredits,
+    className: "scene--credits",
+    text:
+      "Автор идеи и сценарист — Яна Червоткина\nДизайнер и разработчик — Виктория Губанова",
     choices: [{ label: "Начать заново", next: "cover" }],
   },
 };
